@@ -1,0 +1,6 @@
+Thu Sep 21 2023 23:25:22 } [PH] error: listen EADDRINUSE: address already in use :::5001
+Thu Sep 21 2023 23:30:7 } [PH] error: E11000 duplicate key error collection: university-management-main.academicfaculties index: title_1 dup key: { title: "Summer" }
+Thu Sep 21 2023 23:31:5 } [PH] error: E11000 duplicate key error collection: university-management-main.academicfaculties index: title_1 dup key: { title: "Jhonkar mahabub" }
+Thu Sep 21 2023 23:31:56 } [PH] error: E11000 duplicate key error collection: university-management-main.academicfaculties index: title_1 dup key: { title: "Summer" }
+Thu Sep 21 2023 23:34:36 } [PH] error: E11000 duplicate key error collection: university-management-main.academicfaculties index: title_1 dup key: { title: "Fall" }
+Thu Sep 21 2023 23:45:55 } [PH] error: E11000 duplicate key error collection: university-management-main.academicfaculties index: title_1 dup key: { title: "Jhonkar mahabub" }
