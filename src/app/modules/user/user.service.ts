@@ -88,7 +88,10 @@ const createStudent = async (
   }
 
   if (newUserAllData) {
-    await RedisClient.publish(EVENT_STUDENT_CREATED, JSON.stringify(newUserAllData.student))
+    await RedisClient.publish(
+      EVENT_STUDENT_CREATED,
+      JSON.stringify(newUserAllData.student)
+    );
   }
 
   return newUserAllData;
@@ -151,10 +154,13 @@ const createFaculty = async (
         },
       ],
     });
-  };
+  }
 
   if (newUserAllData) {
-    await RedisClient.publish(EVENT_FACULTY_CREATED, JSON.stringify(newUserAllData.faculty));
+    await RedisClient.publish(
+      EVENT_FACULTY_CREATED,
+      JSON.stringify(newUserAllData.faculty)
+    );
   }
 
   return newUserAllData;
@@ -170,7 +176,7 @@ const createAdmin = async (
   }
   // set role
   user.role = 'admin';
-
+  console.log(user, 'user');
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
@@ -179,7 +185,8 @@ const createAdmin = async (
     const id = await generateAdminId();
     user.id = id;
     admin.id = id;
-
+    // console.log(user, 'user');
+    // console.log(admin, 'admin');
     const newAdmin = await Admin.create([admin], { session });
 
     if (!newAdmin.length) {

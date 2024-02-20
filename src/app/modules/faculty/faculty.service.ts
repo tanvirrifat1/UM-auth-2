@@ -9,7 +9,10 @@ import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import { RedisClient } from '../../../shared/redis';
 import { User } from '../user/user.model';
-import { EVENT_FACULTY_UPDATED, facultySearchableFields } from './faculty.constant';
+import {
+  EVENT_FACULTY_UPDATED,
+  facultySearchableFields,
+} from './faculty.constant';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
 import { Faculty } from './faculty.model';
 
@@ -99,15 +102,15 @@ const updateFaculty = async (
     });
   }
 
-  const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData,
-    { new: true }
-  )
+  const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
+    new: true,
+  })
     .populate('academicFaculty')
-    .populate('academicDepartment')
-    ;
-
+    .populate('academicDepartment');
+  // console.log(updatedFacultyData, 'updatedFacultyData');
+  console.log(result, 'result');
   if (result) {
-    await RedisClient.publish(EVENT_FACULTY_UPDATED, JSON.stringify(result))
+    await RedisClient.publish(EVENT_FACULTY_UPDATED, JSON.stringify(result));
   }
   return result;
 };
@@ -123,7 +126,7 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
   const session = await mongoose.startSession();
 
   try {
-    session.startTransaction();
+    await session.startTransaction();
     //delete faculty first
     const faculty = await Faculty.findOneAndDelete({ id }, { session });
     if (!faculty) {
@@ -131,8 +134,8 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
     }
     //delete user
     await User.deleteOne({ id });
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
 
     return faculty;
   } catch (error) {
